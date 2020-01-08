@@ -3,6 +3,7 @@ package com.ds.queue;
 import java.util.Scanner;
 
 /**
+ * 队列
  * 此处代码使用一次就不能复用
  * 接下来优化：将数组改进成为一个环形的数组 取模：%
  */
