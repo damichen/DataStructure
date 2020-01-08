@@ -1,6 +1,8 @@
 package com.ds.linkedlist;
 
 
+import java.util.Stack;
+
 /**
  * 单链表
  */
@@ -16,18 +18,18 @@ public class SingleLinkedListDemo {
         HeroNode node7 = new HeroNode(7, "秦明", "霹雳火");
         HeroNode node22 = new HeroNode(2, "小炉子", "玉麒麟super");
         SingleLinkedList singleLinkedList = new SingleLinkedList();
-//        singleLinkedList.add(node1);
-//        singleLinkedList.add(node2);
-//        singleLinkedList.add(node3);
-//        singleLinkedList.add(node4);
+        singleLinkedList.add(node1);
+        singleLinkedList.add(node3);
+        singleLinkedList.add(node2);
+        singleLinkedList.add(node4);
 
-        singleLinkedList.addByOrder(node2);
-        singleLinkedList.addByOrder(node1);
-        singleLinkedList.addByOrder(node4);
-        singleLinkedList.addByOrder(node3);
-        singleLinkedList.addByOrder(node7);
-        singleLinkedList.addByOrder(node5);
-        singleLinkedList.addByOrder(node6);
+//        singleLinkedList.addByOrder(node2);
+//        singleLinkedList.addByOrder(node1);
+//        singleLinkedList.addByOrder(node4);
+//        singleLinkedList.addByOrder(node3);
+//        singleLinkedList.addByOrder(node7);
+//        singleLinkedList.addByOrder(node5);
+//        singleLinkedList.addByOrder(node6);
 
         System.out.println("添加之后数据:");
         singleLinkedList.list();
@@ -55,7 +57,7 @@ public class SingleLinkedListDemo {
 
         reversetList(singleLinkedList.getHead());
         singleLinkedList.list();
-
+        reversePrint(singleLinkedList.getHead());
     }
 
     /**
@@ -146,6 +148,23 @@ public class SingleLinkedListDemo {
         head.next = tempHead.next;
     }
 
+    public static void reversePrint(HeroNode head){
+        if (head.next==null){
+            System.out.println("此链表为空");
+            return;
+        }
+        Stack<HeroNode> stack = new Stack<>();
+        HeroNode cur = head.next;
+        while (cur!=null){
+            stack.push(cur);
+            cur = cur.next;
+        }
+        System.out.println("逆序之后打印：");
+        while (stack.size()>0){
+            HeroNode pop = stack.pop();
+            System.out.printf("%d\t%s\t%s\n", pop.no, pop.name, pop.nickName);
+        }
+    }
 }
 
 //定义SingleLinkedList 管理我们的英雄
