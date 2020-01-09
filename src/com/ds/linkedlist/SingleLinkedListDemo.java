@@ -18,10 +18,20 @@ public class SingleLinkedListDemo {
         HeroNode node7 = new HeroNode(7, "秦明", "霹雳火");
         HeroNode node22 = new HeroNode(2, "小炉子", "玉麒麟super");
         SingleLinkedList singleLinkedList = new SingleLinkedList();
-        singleLinkedList.add(node1);
-        singleLinkedList.add(node3);
-        singleLinkedList.add(node2);
-        singleLinkedList.add(node4);
+        SingleLinkedList singleLinkedList1 = new SingleLinkedList();
+
+        singleLinkedList.addByOrder(node1);
+        singleLinkedList.addByOrder(node3);
+        singleLinkedList.addByOrder(node5);
+        singleLinkedList.addByOrder(node7);
+
+        singleLinkedList1.addByOrder(node4);
+        singleLinkedList1.addByOrder(node2);
+        singleLinkedList1.addByOrder(node6);
+//        singleLinkedList.add(node1);
+//        singleLinkedList.add(node3);
+//        singleLinkedList.add(node2);
+//        singleLinkedList.add(node4);
 
 //        singleLinkedList.addByOrder(node2);
 //        singleLinkedList.addByOrder(node1);
@@ -55,9 +65,11 @@ public class SingleLinkedListDemo {
         HeroNode lastIndexNode = findLastIndexNode(singleLinkedList.getHead(), 2);
         System.out.println("查找单链表中的倒数第 k 个结点" + lastIndexNode);
 
-        reversetList(singleLinkedList.getHead());
-        singleLinkedList.list();
-        reversePrint(singleLinkedList.getHead());
+//        reversetList(singleLinkedList.getHead());
+//        singleLinkedList.list();
+//        reversePrint(singleLinkedList.getHead());
+
+        mergeLinkedList(singleLinkedList1.getHead(), singleLinkedList.getHead());
     }
 
     /**
@@ -117,15 +129,16 @@ public class SingleLinkedListDemo {
 
     /**
      * 单链表的反转
-     *      此处需要说明的是节点用的都是相同的一堆节点，
-     *      把heroNode中的next改掉了就是把所有head中的改掉了
+     * 此处需要说明的是节点用的都是相同的一堆节点，
+     * 把heroNode中的next改掉了就是把所有head中的改掉了
      * 此处思路：
-     *      1.创建一个头节点
-     *      2.将原链表的节点进行遍历，并且在遍历过程中
-     *      将每次来遍历来的节点的next指向 tempHead.next,
-     *      将tempHead.next节点指向cur;再将cur = next(之前cur.next);
-     *      （这样就是将遍历来的节点插入到最前面）
-     *      3.将head指向tempHead.next(即指向新的节点)
+     * 1.创建一个头节点
+     * 2.将原链表的节点进行遍历，并且在遍历过程中
+     * 将每次来遍历来的节点的next指向 tempHead.next,
+     * 将tempHead.next节点指向cur;再将cur = next(之前cur.next);
+     * （这样就是将遍历来的节点插入到最前面）
+     * 3.将head指向tempHead.next(即指向新的节点)
+     *
      * @param head
      */
     public static void reversetList(HeroNode head) {
@@ -138,7 +151,7 @@ public class SingleLinkedListDemo {
         HeroNode next = null;// 指向当前节点[cur]的下一个节点
         //遍历原来的链表，每遍历一个节点，就将其取出，
         // 并放在新的链表 reverseHead 的最前端
-        while (cur!=null) {
+        while (cur != null) {
             next = cur.next;//先暂时保存当前节点的下一个节点，因为后面需要使用
             cur.next = tempHead.next;//将 cur 的下一个节点指向新的链表的最前端
             tempHead.next = cur; //将 cur 连接到新的链表上
@@ -148,21 +161,78 @@ public class SingleLinkedListDemo {
         head.next = tempHead.next;
     }
 
-    public static void reversePrint(HeroNode head){
-        if (head.next==null){
+    /**
+     * 从尾到头打印单链表 【百度，要求方式 1：反向遍历 。 方式 2：Stack 栈】
+     *
+     * @param head
+     */
+    public static void reversePrint(HeroNode head) {
+        if (head.next == null) {
             System.out.println("此链表为空");
             return;
         }
         Stack<HeroNode> stack = new Stack<>();
         HeroNode cur = head.next;
-        while (cur!=null){
+        while (cur != null) {
             stack.push(cur);
             cur = cur.next;
         }
         System.out.println("逆序之后打印：");
-        while (stack.size()>0){
+        while (stack.size() > 0) {
             HeroNode pop = stack.pop();
             System.out.printf("%d\t%s\t%s\n", pop.no, pop.name, pop.nickName);
+        }
+    }
+
+    /**
+     * 合并两个有序单链表
+     * @param head1
+     * @param head2
+     */
+    public static void mergeLinkedList(HeroNode head1, HeroNode head2) {
+        if (head1.next == null && head2.next == null) {
+            System.out.println("两个链表都是空");
+        } else if (head2.next == null) {
+            printLinkedList(head1);
+        } else if (head1.next == null) {
+            printLinkedList(head2);
+        }
+        HeroNode cur1 = head1.next;
+        HeroNode cur2 = head2.next;
+        HeroNode tempHead = new HeroNode(0, "", "");
+        HeroNode tempHead1 = tempHead;//这里用来记录这个头节点
+        HeroNode temp = null;
+        while (cur1 != null || cur2 != null) {
+            if (cur1 != null && cur2 != null) {
+                if (cur1.no > cur2.no) {
+                    temp = cur2;
+                    cur2 = cur2.next;
+                } else {
+                    temp = cur1;
+                    cur1 = cur1.next;
+                }
+            } else if (cur1 != null) {
+                temp = cur1;
+                cur1 = cur1.next;
+            } else if (cur2 != null) {
+                temp = cur2;
+                cur2 = cur2.next;
+            }
+            tempHead.next = temp;
+            tempHead = tempHead.next;
+        }
+        printLinkedList(tempHead1);
+    }
+
+    public static void printLinkedList(HeroNode head) {
+        if (head.next == null) {
+            System.out.println("链表为空");
+            return;
+        }
+        HeroNode cur = head.next;
+        while (cur != null) {
+            System.out.println(cur);
+            cur = cur.next;
         }
     }
 }
