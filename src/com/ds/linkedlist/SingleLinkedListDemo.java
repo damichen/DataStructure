@@ -16,18 +16,18 @@ public class SingleLinkedListDemo {
         HeroNode node7 = new HeroNode(7, "秦明", "霹雳火");
         HeroNode node22 = new HeroNode(2, "小炉子", "玉麒麟super");
         SingleLinkedList singleLinkedList = new SingleLinkedList();
-//        singleLinkedList.add(node1);
-//        singleLinkedList.add(node2);
-//        singleLinkedList.add(node3);
-//        singleLinkedList.add(node4);
+        singleLinkedList.add(node1);
+        singleLinkedList.add(node3);
+        singleLinkedList.add(node2);
+        singleLinkedList.add(node4);
 
-        singleLinkedList.addByOrder(node2);
-        singleLinkedList.addByOrder(node1);
-        singleLinkedList.addByOrder(node4);
-        singleLinkedList.addByOrder(node3);
-        singleLinkedList.addByOrder(node7);
-        singleLinkedList.addByOrder(node5);
-        singleLinkedList.addByOrder(node6);
+//        singleLinkedList.addByOrder(node2);
+//        singleLinkedList.addByOrder(node1);
+//        singleLinkedList.addByOrder(node4);
+//        singleLinkedList.addByOrder(node3);
+//        singleLinkedList.addByOrder(node7);
+//        singleLinkedList.addByOrder(node5);
+//        singleLinkedList.addByOrder(node6);
 
         System.out.println("添加之后数据:");
         singleLinkedList.list();
