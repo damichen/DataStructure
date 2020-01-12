@@ -5,7 +5,8 @@ import java.util.Scanner;
 public class ArrayStackDemo {
 
     public static void main(String[] args) {
-        ArrayStack<String> stack = new ArrayStack<>(5);
+//        ArrayStack<String> stack = new ArrayStack<>(5);
+        SingleLinedListStack<String> stack = new SingleLinedListStack<>("00",5);
         //测试一下 ArrayStack 是否正确
         //先创建一个 ArrayStack 对象->表示栈
 
@@ -26,12 +27,13 @@ public class ArrayStackDemo {
                 case "push":
                     System.out.println("请输入一个数");
                     String value = scanner.next();
-                    stack.push(value);
+                    NodeStack<String> nodeStack =new NodeStack<>(value,null);
+                    stack.push(nodeStack);
                     break;
                 case "pop":
                     try {
-                        String res = stack.pop();
-                        System.out.printf("出栈的数据是 %s\n", res);
+                        NodeStack res = stack.pop();
+                        System.out.printf("出栈的数据是 %s\n", res.no);
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
                     }
@@ -109,4 +111,101 @@ class ArrayStack<T> {
         }
     }
 
+}
+
+class SingleLinedListStack<T> {
+
+    public NodeStack<T> head;
+    private int maxSize;//设置栈的最大容量
+
+    public SingleLinedListStack(T val, int maxSize) {
+        head = new NodeStack<T>(val, null);
+        this.maxSize = maxSize;
+    }
+
+    /**
+     * 栈满
+     *
+     * @return
+     */
+    public boolean isFull() {
+        return size() == maxSize;
+    }
+
+    //栈空
+    public boolean isEmpty() {
+        return head == null || head.next == null;
+    }
+
+    public int size() {
+        int top = 0;
+
+        NodeStack cur = head.next;
+        while (cur != null) {
+            top++;
+            cur = cur.next;
+        }
+        return top;
+    }
+
+    public void push(NodeStack val) {
+        if (isFull()) {
+            System.out.println("栈已满");
+            return;
+        }
+        NodeStack cur = head;
+        while (cur.next != null) {
+            cur = cur.next;
+        }
+        cur.next = val;
+    }
+
+    public NodeStack pop() {
+        if (isEmpty()) {
+            throw new RuntimeException("栈已空");
+        }
+        NodeStack cur = head.next;
+        while (true) {
+            if (cur.next != null && cur.next.next == null) {
+                break;
+            }
+            cur = cur.next;
+        }
+        NodeStack temp = cur.next;
+        cur.next = null;
+        return temp;
+    }
+
+    public void list() {
+        if (isEmpty()) {
+            System.out.println("栈空");
+            return;
+        }
+        NodeStack cur = head.next;
+        while (true) {
+            if (cur == null){
+                break;
+            }
+            System.out.println(cur);
+            cur = cur.next;
+        }
+    }
+}
+
+class NodeStack<T> {
+
+    public T no;
+    public NodeStack next;
+
+    public NodeStack(T no, NodeStack next) {
+        this.no = no;
+        this.next = next;
+    }
+
+    @Override
+    public String toString() {
+        return "NodeStack{" +
+                "no=" + no +
+                '}';
+    }
 }
